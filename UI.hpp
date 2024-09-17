@@ -14,13 +14,17 @@ class UI : public Drawable{
 		Text byText;
 		Text gameOverText;
 		Text newScoreText;
-		bool newScore=0;
-		bool gameOver=0;
+		Text pausedText;
+		Text restartText;
+		bool newScore=false;
+		bool gameOver=false;
+		bool gamepaused=false;
 	public:
 		UI();
 		void SetScore(int);
 		void SetMaxScore(int);
-		void GameOver();
-		void NewScore();
+		void GameOver(bool);
+		void NewScore(bool);
+		void gPaused(bool);
 		virtual void draw(RenderTarget&,RenderStates) const;
 };

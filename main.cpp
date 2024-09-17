@@ -13,7 +13,7 @@ int main(){
 	UI ui;
 	Sounds sounds;
 	
-	RenderWindow window(VideoMode(400,400),"Tetris");
+	RenderWindow window(VideoMode(500,880),"Tetris");
 	window.setFramerateLimit(60);
 	
 	board.InstallPart();
@@ -28,7 +28,7 @@ int main(){
 	ui.SetMaxScore(maxScore);
 	ui.SetScore(score);
 	
-	bool live = 1;
+	bool live = true , ps = false,flag_p=false,flag_go=false;
 	
 	sounds.PlayMusic();
 	
@@ -37,8 +37,13 @@ int main(){
 		while(window.pollEvent(event)){
 			if(event.type==Event::Closed) window.close();
 		}
-		
-		if(live){
+
+		if(Keyboard::isKeyPressed(Keyboard::P) && !flag_p && live){ ps=!ps;flag_p=true; ui.gPaused(ps);}
+		else if(!Keyboard::isKeyPressed(Keyboard::P)){
+				flag_p=false; 
+		}
+
+		if(live && !ps){
 			if(Keyboard::isKeyPressed(Keyboard::Up)&&!up) board.RotatePart(), up=1;
 			else if(!Keyboard::isKeyPressed(Keyboard::Up)){
 				up=0;
@@ -66,19 +71,19 @@ int main(){
 				left++;
 				if(left==6) left=0;
 			}
-			
+
 			if(board.UpdateBoard()){
 				if(!board.InstallPart()){
-					live=0;
+					live=false;
 					board.ClearBoard();
 					sounds.PauseMusic();
 					if(score>maxScore){
-						ui.NewScore();
+						ui.NewScore(true);
 						ofstream out("maxScore.txt");
 						out<<score;
 						sounds.PlayNewScore();
 					}else{
-						ui.GameOver();
+						ui.GameOver(true);
 						sounds.PlayGameOver();
 					}
 				}
@@ -89,8 +94,12 @@ int main(){
 			score+=newScore;
 			ui.SetScore(score);
 			if(newScore>0) sounds.PlayLine();
+			ui.SetMaxScore(maxScore);
 		}
-		
+		if(Keyboard::isKeyPressed(Keyboard::R) && !flag_go && !live){ live=true;flag_go=true; ui.GameOver(false);ui.NewScore(false);sounds.PlayMusic();if(score>maxScore)maxScore=score;score=0;}
+		else if(!Keyboard::isKeyPressed(Keyboard::R)){
+				flag_go=false; 
+		}
 		
 		window.clear(Color(20,20,20));
 		window.draw(board);
