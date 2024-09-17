@@ -4,8 +4,8 @@ Board::Board(){
 	memset(board,0,sizeof(board));
 	for(int i = 0; i < 20; i++){
 		for(int j = 0; j < 10; j++){
-			boardShapes[i][j]=RectangleShape(Vector2f(20,20));
-			boardShapes[i][j].setPosition(j*20,i*20);
+			boardShapes[i][j]=RectangleShape(Vector2f(30,30));
+			boardShapes[i][j].setPosition(j*30,i*30);
 			boardShapes[i][j].setFillColor(Color(50,50,50));
 			boardShapes[i][j].setOutlineThickness(2);
 			boardShapes[i][j].setOutlineColor(Color(0,0,0));
