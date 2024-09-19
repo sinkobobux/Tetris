@@ -14,9 +14,10 @@ Board::Board(){
 }
 
 bool Board::InstallPart(){
-	srand(time(NULL));
-	indNewPart=rand()%7;
+	//srand(time(NULL));
+	//indNewPart=rand()%7;
 	
+	indNewPart=Parts::from_bag();
 	vector<vector<bool>> part = parts.ConsultPart(indNewPart);
 	
 	int sz = (int)part.size();

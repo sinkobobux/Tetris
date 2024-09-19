@@ -40,6 +40,8 @@ Parts::Parts(){
 			 {0,0,1,0}}};
 }
 
+vector<int> Parts::bag={0,1,2,3,4,5,6};
+vector<int> Parts::tmp_bag={};
 
 vector<vector<bool>> Parts::ConsultPart(int ind){
 	return parts[ind];
@@ -74,3 +76,11 @@ void Parts::DerotatePart(int ind){
 	}
 }
 
+int Parts::from_bag(){
+	srand(time(NULL));
+	if(tmp_bag.empty())	tmp_bag=bag;
+	int picker = rand() % tmp_bag.size();
+	int content = tmp_bag[picker];
+	tmp_bag.erase(tmp_bag.begin()+picker);
+	return content;
+}
